@@ -80,7 +80,8 @@ namespace QuickGraph.Graphviz.Dot
         if (entry.Value is GraphvizColor)
         {
           var color = (GraphvizColor) entry.Value;
-          writer.Write("{0}=\"#{1}{2}{3}{4}\"", entry.Key, color.R.ToString("x2").ToUpper(), color.G.ToString("x2").ToUpper(), color.B.ToString("x2").ToUpper(), color.A.ToString("x2").ToUpper());
+          //writer.Write("{0}=\"#{1}{2}{3}{4}\"", entry.Key, color.R.ToString("x2").ToUpper(), color.G.ToString("x2").ToUpper(), color.B.ToString("x2").ToUpper(), color.A.ToString("x2").ToUpper());
+          writer.Write("{0}=\"#{1}{2}{3}\"", entry.Key, color.R.ToString("x2").ToUpper(), color.G.ToString("x2").ToUpper(), color.B.ToString("x2").ToUpper());
           continue;
         }
 
