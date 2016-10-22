@@ -1,18 +1,18 @@
 namespace QuickGraph.Graphviz.Dot
 {
-    using System;
+  //using System;
 
-    public enum GraphvizVertexStyle
-    {
-        Unspecified,
-        Filled,
-        Diagonals,
-        Rounded,
-        Invis,
-        Dashed,
-        Dotted,
-        Bold,
-        Solid
-    }
+  public enum GraphvizVertexStyle
+  {
+    Unspecified,
+    Filled,
+    Diagonals,
+    Rounded,
+    Invis,
+    Dashed,
+    Dotted,
+    Bold,
+    Solid
+  }
 }
 

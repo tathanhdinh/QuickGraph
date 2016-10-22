@@ -109,7 +109,7 @@
   <ItemGroup>
     <Compile Include="DirectedGraphMLAlgorithm.cs" />
     <Compile Include="DirectedGraphMLExtensions.cs" />
-    <Compile Include="DirectedGraphML\Dgml.cs" />
+    <Compile Include="DirectedGraphML\DirectedGraphML.cs" />
     <Compile Include="GraphMLDeserializer.cs" />
     <Compile Include="GraphMLExtensions.cs" />
     <Compile Include="GraphMLSerializer.cs" />
