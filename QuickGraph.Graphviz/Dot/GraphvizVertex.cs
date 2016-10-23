@@ -4,6 +4,7 @@ namespace QuickGraph.Graphviz.Dot
   using System.Collections;
   using System.IO;
   using System.Collections.Generic;
+  using System.Linq;
 
   public class GraphvizVertex
   {
@@ -64,13 +65,16 @@ namespace QuickGraph.Graphviz.Dot
 
         if (entry.Value is HashSet<GraphvizVertexStyle>)
         {
-          var stylesAsStrings = new HashSet<string>();
-          foreach (var style in (HashSet<GraphvizVertexStyle>)entry.Value)
-          {
-            stylesAsStrings.Add(((GraphvizVertexStyle)style).ToString().ToLower());
-          }
-          var vertexStyleString = string.Join(",", stylesAsStrings);
-          writer.Write("{0}=\"{1}\"", entry.Key, vertexStyleString);
+          //var stylesAsStrings = new HashSet<string>();
+          //foreach (var style in (HashSet<GraphvizVertexStyle>)entry.Value)
+          //{
+          //  stylesAsStrings.Add(((GraphvizVertexStyle)style).ToString().ToLower());
+          //}
+          //var vertexStyleString = string.Join(",", stylesAsStrings);
+
+          ((HashSet<GraphvizVertexStyle>)entry.Value).ToArray();
+          //writer.Write("{0}=\"{1}\"", entry.Key, vertexStyleString);
+          writer.Write("{0}=\"{1}\"", entry.Key, string.Join(",", ((HashSet<GraphvizVertexStyle>)entry.Value).ToArray()));
 
           //writer.Write("{0}={1}", entry.Key, ((GraphvizVertexStyle) entry.Value).ToString().ToLower());
           //string vertexStyle = string.Join(",", ((HashSet<GraphvizVertexStyle>) entry.Value).ToArray());
@@ -100,70 +104,76 @@ namespace QuickGraph.Graphviz.Dot
       var pairs = new Dictionary<string, object>();
       if (this.Font != null)
       {
-          pairs["fontname"] = this.Font.Name;
-          pairs["fontsize"] = this.Font.SizeInPoints;
+        pairs["fontname"] = this.Font.Name;
+        pairs["fontsize"] = this.Font.SizeInPoints;
       }
       if (!this.FontColor.Equals(GraphvizColor.Black))
       {
-          pairs["fontcolor"] = this.FontColor;
+        pairs["fontcolor"] = this.FontColor;
       }
       if (this.Shape != GraphvizVertexShape.Unspecified)
       {
-          pairs["shape"] = this.Shape;
+        pairs["shape"] = this.Shape;
       }
 
-    //if (this.Style != GraphvizVertexStyle.Unspecified)
-    //  {
-    //      pairs["style"] = this.Style;
-    //  }
-      if (this.Style.Count > 0)
+      //if (this.Style != GraphvizVertexStyle.Unspecified)
+      //  {
+      //      pairs["style"] = this.Style;
+      //  }
+
+      this.Style.Remove(GraphvizVertexStyle.Unspecified);  
+      if (this.Style.Any())
       {
         pairs["style"] = this.Style;
       }
 
-    if (this.Shape == GraphvizVertexShape.Record)
+      if (this.Shape == GraphvizVertexShape.Record)
       {
-          pairs["label"] = this.Record;
+        pairs["label"] = this.Record;
       }
       else if (this.Label != null)
       {
-          pairs["label"] = this.Label;
+        pairs["label"] = this.Label;
       }
+
       if (this.FixedSize)
       {
-          pairs["fixedsize"] = true;
-          if (this.Size.Height > 0f)
-          {
-              pairs["height"] = this.Size.Height;
-          }
-          if (this.Size.Width > 0f)
-          {
-              pairs["width"] = this.Size.Width;
-          }
+        pairs["fixedsize"] = true;
+        if (this.Size.Height > 0f)
+        {
+          pairs["height"] = this.Size.Height;
+        }
+
+        if (this.Size.Width > 0f)
+        {
+          pairs["width"] = this.Size.Width;
+        }
       }
+
       if (!this.StrokeColor.Equals(GraphvizColor.Black))
       {
-          pairs["color"] = this.StrokeColor;
+        pairs["color"] = this.StrokeColor;
       }
+
       if (!this.FillColor.Equals(GraphvizColor.White))
       {
-          pairs["fillcolor"] = this.FillColor;
+        pairs["fillcolor"] = this.FillColor;
       }
       if (this.Regular)
       {
-          pairs["regular"] = this.Regular;
+        pairs["regular"] = this.Regular;
       }
       if (this.Url != null)
       {
-          pairs["URL"] = this.Url;
+        pairs["URL"] = this.Url;
       }
       if (this.ToolTip != null)
       {
-          pairs["tooltip"] = this.ToolTip;
+        pairs["tooltip"] = this.ToolTip;
       }
       if (this.Comment != null)
       {
-          pairs["comment"] = this.Comment;
+        pairs["comment"] = this.Comment;
       }
       if (this.Group != null)
       {
@@ -192,15 +202,16 @@ namespace QuickGraph.Graphviz.Dot
       if (((this.Style.Contains(GraphvizVertexStyle.Diagonals)) || (this.Shape == GraphvizVertexShape.MCircle)) || 
           ((this.Shape == GraphvizVertexShape.MDiamond) || (this.Shape == GraphvizVertexShape.MSquare)))
       {
-          if (this.TopLabel != null)
-          {
-              pairs["toplabel"] = this.TopLabel;
-          }
-          if (this.BottomLabel != null)
-          {
-              pairs["bottomlable"] = this.BottomLabel;
-          }
+        if (this.TopLabel != null)
+        {
+          pairs["toplabel"] = this.TopLabel;
+        }
+        if (this.BottomLabel != null)
+        {
+          pairs["bottomlable"] = this.BottomLabel;
+        }
       }
+
       if (this.Shape == GraphvizVertexShape.Polygon)
       {
           if (this.Sides != 0)
